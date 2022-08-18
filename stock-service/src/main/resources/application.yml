@@ -1,0 +1,25 @@
+server:
+  port: 9082
+
+spring:
+  data:
+    mongodb:
+      uri: mongodb://mongo1:30001,mongo2:30002,mongo3:30003/stock?replicaSet=rs0
+      database: stock
+
+kafka:
+  bootstrap-servers: localhost:9092
+  group-id: stock-service
+  topics: order_outbox_events
+  auto-offset-reset: latest
+  reconnect-backoff-ms: 1000
+  reconnect-backoff-max-ms: 3000
+  retry-backoff-ms: 1000
+  request-timeout-ms: 60000
+  heartbeat-interval-ms: 5000
+  session-timeout-ms: 15000
+  max-poll-interval-ms: 600000
+  max-poll-records: 20
+
+schema-registry:
+  url: http://localhost:8081

@@ -1,0 +1,20 @@
+{
+   "type":"record",
+   "name":"Event",
+   "namespace":"com.example.outbox",
+   "fields":[
+      {
+         "name":"eventType",
+         "type":"string"
+      },
+      {
+         "name":"timestamp",
+         "type":"long"
+      },
+      {
+         "name":"payload",
+         "type":"string"
+      }
+   ],
+   "connect.name":"com.example.outbox.Event"
+}

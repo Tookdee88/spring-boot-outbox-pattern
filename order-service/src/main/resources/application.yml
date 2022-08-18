@@ -1,0 +1,8 @@
+server:
+  port: 9081
+
+spring:
+  data:
+    mongodb:
+      uri: mongodb://mongo1:30001,mongo2:30002,mongo3:30003/order?replicaSet=rs0
+      database: order
