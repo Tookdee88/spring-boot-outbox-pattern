@@ -88,12 +88,14 @@ services:
       - schema-registry
     ports:
       - "8083:8083"
+      - "8101:8101"
     environment:
       CONNECT_BOOTSTRAP_SERVERS: 'broker:29092'
       CONNECT_REST_ADVERTISED_HOST_NAME: connect
       CONNECT_GROUP_ID: compose-connect-group
       CONNECT_CONFIG_STORAGE_TOPIC: docker-connect-configs
       CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: 1
+      CONNECT_OFFSET_FLUSH_TIMEOUT_MS: 300000
       CONNECT_OFFSET_FLUSH_INTERVAL_MS: 10000
       CONNECT_OFFSET_STORAGE_TOPIC: docker-connect-offsets
       CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: 1
@@ -102,8 +104,16 @@ services:
       CONNECT_KEY_CONVERTER: org.apache.kafka.connect.storage.StringConverter
       CONNECT_VALUE_CONVERTER: io.confluent.connect.avro.AvroConverter
       CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: http://schema-registry:8081
+      CONNECT_PRODUCER_BATCH_SIZE: 524288
+      CONNECT_PRODUCER_LINGER_MS: 5000
+      CONNECT_PRODUCER_MAX_REQUEST_SIZE: 8388608
+      CONNECT_PRODUCER_PARTITIONER_CLASS: org.apache.kafka.clients.producer.internals.DefaultPartitioner
       CONNECT_PLUGIN_PATH: "/usr/share/java,/usr/share/confluent-hub-components"
       CONNECT_LOG4J_LOGGERS: org.apache.zookeeper=ERROR,org.I0Itec.zkclient=ERROR,org.reflections=ERROR
+      KAFKA_JMX_HOSTNAME: localhost
+      KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false"
+      KAFKA_JMX_PORT: "8101"
+
 
   outbox-connector:
     image: curlimages/curl:latest
@@ -133,6 +143,7 @@ services:
           \"collection.whitelist\": \"order[.]outbox_events\",
           \"tasks.max\": \"1\"
       }}')"
+
 
   order-service:
     build:
