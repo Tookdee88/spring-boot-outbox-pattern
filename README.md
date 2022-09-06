@@ -3,6 +3,9 @@
 ### Description
 This is spring-boot outbox pattern example.
 
+### Presentation
+[Apache Kafka Meetup 2nd - Event Driven Architecture in TD Retail Platform](./asset/apache_kafka_meetup.pdf)
+
 ### Use case
 ![](./asset/use_case.png)
 
